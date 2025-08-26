@@ -1,38 +1,33 @@
-[README.md](https://github.com/user-attachments/files/21984414/README.md)
-# Park West London Newsletter - Published Version
+# Park West Newsletter - Blue Theme
 
-This folder contains the production-ready version of the Park West London Newsletter.
+This folder contains the dedicated blue theme version of the Park West London Newsletter.
 
 ## Files Included
 
-- `index.html` - The main newsletter file with gold theme styling
-- `PWpng.png` - Park West logo image
+- `index.html` - The main newsletter HTML file with blue theme styling and embedded content
+- `kbxcm6kbxcm6kbxc.png` - Blue theme logo image
 - `pakwest.jpeg` - Main building image
-- `README.md` - This file
-
-## How to Use
-
-1. Open `index.html` in any web browser to view the newsletter
-2. The newsletter is ready for distribution and printing
-3. All content is final and includes the latest updates
+- `README.md` - This documentation file
 
 ## Features
 
-- Responsive design that works on desktop and mobile devices
-- Professional gold theme styling
-- Clean, readable typography
-- Optimized for both screen viewing and printing
+- **Dedicated Blue Theme**: This version is specifically styled with blue colors and gradients
+- **No Theme Switcher**: Removed the theme switching functionality for a clean, focused design
+- **Self-Contained**: All content is embedded in the HTML file - no external dependencies
+- **Optimized for Publishing**: Contains only the essential files for deployment
+- **Responsive Design**: Works well on desktop and mobile devices
 
-## Content Sections
+## Color Scheme
 
-- Central Heating information
-- Drains & Drainage guidelines
-- Fire Safety information
-- Communal Areas guidelines
-- Package delivery information
-- Major Works updates
-- Building Survey information
-- Jewish Holidays 2025 schedule
-- Thank you message
+- Primary Blue: #3498db
+- Secondary Blue: #5dade2
+- Dark Blue Header: #2c3e50, #34495e
+- Light Blue Background: #f0f8ff, #e6f3ff, #d4e6f1
 
-This version is clean and ready for distribution to Park West residents.
+## Usage
+
+Simply open `index.html` in a web browser to view the newsletter. All content and styling are self-contained within the HTML file.
+
+## Publishing
+
+This folder is ready for publishing and contains only the essential files needed for the blue theme newsletter version.
