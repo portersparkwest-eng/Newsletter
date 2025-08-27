@@ -4,14 +4,52 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Park West London Newsletter - Blue Theme</title>
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-M6CNY283HH"></script>
+<!-- Google Analytics Consent Management -->
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  // Check if user has already given consent
+  function hasConsent() {
+    return localStorage.getItem('ga-consent') === 'accepted';
+  }
 
-  gtag('config', 'G-M6CNY283HH');
+  // Function to load Google Analytics after consent
+  function loadGoogleAnalytics() {
+    // Load Google Analytics script
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=G-M6CNY283HH';
+    document.head.appendChild(script);
+
+    // Initialize Google Analytics
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-M6CNY283HH');
+  }
+
+  // Function to handle consent acceptance
+  function acceptAnalytics() {
+    localStorage.setItem('ga-consent', 'accepted');
+    document.getElementById('consent-banner').style.display = 'none';
+    loadGoogleAnalytics();
+  }
+
+  // Function to handle consent rejection
+  function rejectAnalytics() {
+    localStorage.setItem('ga-consent', 'rejected');
+    document.getElementById('consent-banner').style.display = 'none';
+  }
+
+  // Load analytics if consent was previously given
+  if (hasConsent()) {
+    loadGoogleAnalytics();
+  }
+
+  // Show consent banner if consent hasn't been given
+  window.addEventListener('load', function() {
+    if (!hasConsent() && localStorage.getItem('ga-consent') !== 'rejected') {
+      document.getElementById('consent-banner').style.display = 'block';
+    }
+  });
 </script>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Montserrat:wght@300;400;600&display=swap');
@@ -286,9 +324,99 @@
             width: 150px;
         }
     }
+
+    /* Consent Banner Styles */
+    #consent-banner {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        color: #ffffff;
+        padding: 20px;
+        z-index: 1000;
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
+        border-top: 3px solid #3498db;
+    }
+
+    .consent-content {
+        max-width: 800px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+    }
+
+    .consent-content p {
+        margin: 0;
+        font-size: 0.9rem;
+        line-height: 1.4;
+        flex: 1;
+    }
+
+    .consent-buttons {
+        display: flex;
+        gap: 10px;
+        flex-shrink: 0;
+    }
+
+    .consent-accept, .consent-reject {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+    }
+
+    .consent-accept {
+        background: #3498db;
+        color: #ffffff;
+    }
+
+    .consent-accept:hover {
+        background: #2980b9;
+        transform: translateY(-2px);
+    }
+
+    .consent-reject {
+        background: transparent;
+        color: #ffffff;
+        border: 2px solid #ffffff;
+    }
+
+    .consent-reject:hover {
+        background: #ffffff;
+        color: #2c3e50;
+    }
+
+    @media (max-width: 768px) {
+        .consent-content {
+            flex-direction: column;
+            text-align: center;
+        }
+        
+        .consent-buttons {
+            width: 100%;
+            justify-content: center;
+        }
+    }
 </style>
 </head>
 <body>
+
+<!-- Google Analytics Consent Banner -->
+<div id="consent-banner" style="display: none;">
+    <div class="consent-content">
+        <p>We use cookies and similar technologies to analyze site traffic and personalize content. By clicking "Accept", you consent to our use of cookies for analytics purposes.</p>
+        <div class="consent-buttons">
+            <button onclick="acceptAnalytics()" class="consent-accept">Accept</button>
+            <button onclick="rejectAnalytics()" class="consent-reject">Reject</button>
+        </div>
+    </div>
+</div>
 
 <div class="container">
     <div class="header">
