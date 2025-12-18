@@ -66,7 +66,13 @@
         line-height: 1.6;
         color: #1a1a1a;
         min-height: 100vh;
-        background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 50%, #d4e6f1 100%);
+        background-image: url('subtle-gradient-background-free-vector.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        overflow-x: hidden;
+        position: relative;
     }
     
     .container {
@@ -76,7 +82,8 @@
         background: #ffffff;
         box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         position: relative;
-        overflow: hidden;
+        overflow: visible;
+        z-index: 10;
     }
     
     /* Header Styles */
@@ -403,6 +410,19 @@
             justify-content: center;
         }
     }
+
+    /* Snow Effect Styles */
+    .snowflake {
+        position: fixed;
+        color: #b3e5fc;
+        font-size: 1em;
+        font-family: Arial, sans-serif;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3), 0 0 8px rgba(179, 229, 252, 0.8), 0 0 12px rgba(135, 206, 250, 0.6);
+        user-select: none;
+        pointer-events: none;
+        z-index: 5;
+        will-change: transform, opacity;
+    }
 </style>
 </head>
 <body>
@@ -515,6 +535,104 @@
         <p><strong>The Park West Management Team</strong></p>
     </div>
 </div>
+
+<script>
+    class SnowEffect {
+        constructor() {
+            this.snowflakes = [];
+            this.maxSnowflakes = 150;
+            this.maxHeight = window.innerHeight; // Full page height
+            this.snowflakeSymbols = ['❄', '❅', '❆', '*', '·'];
+            this.init();
+        }
+
+        init() {
+            this.createSnowflakes();
+            this.animate();
+            window.addEventListener('resize', () => {
+                this.maxHeight = window.innerHeight * 0.6;
+            });
+        }
+
+        createSnowflakes() {
+            // Create initial batch immediately
+            for (let i = 0; i < 20; i++) {
+                this.createSnowflake();
+            }
+            // Then create the rest with delays
+            for (let i = 20; i < this.maxSnowflakes; i++) {
+                setTimeout(() => {
+                    this.createSnowflake();
+                }, (i - 20) * 50);
+            }
+        }
+
+        createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.className = 'snowflake';
+            
+            // Random properties
+            const size = Math.random() * 0.8 + 0.2; // 0.2 to 1.0
+            const startX = Math.random() * window.innerWidth;
+            const fallDuration = Math.random() * 10 + 10; // 10-20 seconds
+            const driftAmount = Math.random() * 40 - 20; // -20 to 20px
+            const symbol = this.snowflakeSymbols[Math.floor(Math.random() * this.snowflakeSymbols.length)];
+            
+            // Initial opacity (most start visible)
+            const initialOpacity = Math.random() * 0.2 + 0.8; // 0.8 to 1.0
+            
+            snowflake.textContent = symbol;
+            snowflake.style.left = startX + 'px';
+            snowflake.style.top = '-20px';
+            snowflake.style.fontSize = (size * 20) + 'px';
+            snowflake.style.opacity = initialOpacity;
+            snowflake.style.transform = 'translateY(0) translateX(0) scale(1)';
+            
+            document.body.appendChild(snowflake);
+
+            // Animation properties
+            const maxDistance = this.maxHeight + 200; // Allow overflow beyond viewport
+            const startTime = Date.now();
+            
+            const animate = () => {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min(elapsed / (fallDuration * 1000), 1);
+                
+                // Calculate current position
+                const currentY = progress * maxDistance;
+                const currentX = progress * driftAmount; // Horizontal drift
+                const currentScale = 1 - (progress * 0.2); // Slight scale down
+                const currentOpacity = Math.max(0, initialOpacity * (1 - progress * 0.8)); // Fade out more gradually
+                
+                // Apply transform and opacity
+                snowflake.style.transform = `translateY(${currentY}px) translateX(${currentX}px) scale(${currentScale})`;
+                snowflake.style.opacity = currentOpacity;
+                
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                } else {
+                    snowflake.remove();
+                    // Create a new snowflake to maintain constant snowfall
+                    setTimeout(() => {
+                        this.createSnowflake();
+                    }, Math.random() * 2000);
+                }
+            };
+            
+            requestAnimationFrame(animate);
+        }
+
+        animate() {
+            // This method can be used for additional animations if needed
+            requestAnimationFrame(() => this.animate());
+        }
+    }
+
+    // Initialize snow effect when page loads
+    window.addEventListener('load', () => {
+        new SnowEffect();
+    });
+</script>
 
 </body>
 </html>
